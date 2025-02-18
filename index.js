@@ -56,8 +56,98 @@ let db;
   }
 })();
 
-app.get("/", (req, res) => res.send("Hello World!"));
+app.post("/docs", async (req, res) => {
+  const executionId = req.executionId;
+  logger.info({ executionId, message: "POST /docs - Add a document" });
+  try {
+    const document = req.body;
+    logger.info({
+      executionId,
+      message: `Document to add: ${JSON.stringify(document)}`,
+    });
+    const result = await db.collection(collection_name).insertOne(document);
+    logger.info({
+      executionId,
+      message: `Document added: ${JSON.stringify(result)}`,
+    });
+    res.status(201).send(result);
+  } catch (error) {
+    logger.error({ executionId, message: `Error adding document: ${error}` });
+    res.status(500).send(error);
+  }
+});
 
-app.listen(port, () =>
-  console.log(`sample-expressjs app listening on port ${port}!`)
-);
+app.get("/docs", async (req, res) => {
+  const executionId = req.executionId;
+  logger.info({ executionId, message: "GET /docs - Get all documents" });
+  try {
+    const results = await db.collection(collection_name).find().toArray();
+    logger.info({
+      executionId,
+      message: `Documents retrieved: ${JSON.stringify(results)}`,
+    });
+    res.status(200).json(results);
+  } catch (error) {
+    logger.error({
+      executionId,
+      message: `Error retrieving documents: ${error}`,
+    });
+    res.status(500).send(error);
+  }
+});
+
+app.delete("/docs/:id", async (req, res) => {
+  const executionId = req.executionId;
+  logger.info({
+    executionId,
+    message: `DELETE /docs/:id - Delete a document by ID`,
+  });
+  try {
+    const id = req.params.id;
+    logger.info({ executionId, message: `Received ID: ${id}` });
+
+    if (!ObjectId.isValid(id)) {
+      logger.warn({ executionId, message: "Invalid ObjectId" });
+      return res.status(400).send({ error: "Invalid ObjectId" });
+    }
+
+    const objectId = new ObjectId(id);
+    logger.info({ executionId, message: `Converted ObjectId: ${objectId}` });
+
+    const document = await db
+      .collection(collection_name)
+      .findOne({ _id: objectId });
+    if (!document) {
+      logger.warn({ executionId, message: "Document not found" });
+      return res.status(404).send({ error: "Document not found" });
+    }
+
+    const result = await db
+      .collection(collection_name)
+      .deleteOne({ _id: objectId });
+    logger.info({
+      executionId,
+      message: `Delete result: ${JSON.stringify(result)}`,
+    });
+
+    res.status(200).send(result);
+  } catch (error) {
+    logger.error({ executionId, message: `Error deleting document: ${error}` });
+    res
+      .status(500)
+      .send({ error: "An error occurred while deleting the document" });
+  }
+});
+
+app.get("/", (req, res) => {
+  const executionId = req.executionId;
+  logger.info({ executionId, message: "GET / - Health check" });
+  res.send("Hello World");
+});
+
+app.listen(port, () => {
+  logger.info({
+    executionId: "system",
+    message: `Server running at http://127.0.0.1:${port}/ on your DigitalOcean Droplet!`,
+  });
+});
