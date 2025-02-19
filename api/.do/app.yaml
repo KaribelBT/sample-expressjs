@@ -1,0 +1,12 @@
+name: sample-expressjs
+services:
+  - environment_slug: node-js
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: KaribelBT/sample-expressjs
+    name: sample-expressjs
+  - log_destinations:
+      - name: logs
+        papertrail:
+          endpoint: logs.papertrailapp.com:21111
