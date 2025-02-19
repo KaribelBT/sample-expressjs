@@ -21,7 +21,7 @@ resource "digitalocean_app" "api" {
       source_dir = "api"
       env {
         key   = "MONGODB_CONNECTION_STRING"
-        value = "mongodb+srv://${digitalocean_database_cluster.mongodb.user}:${digitalocean_database_cluster.mongodb.password}@${digitalocean_database_cluster.mongodb.host}/${digitalocean_database_cluster.mongodb.db_name}"
+        value = "mongodb+srv://${digitalocean_database_cluster.mongodb.user}:${digitalocean_database_cluster.mongodb.password}@${digitalocean_database_cluster.mongodb.host}/${digitalocean_database_cluster.mongodb.database}"
         scope = "RUN_AND_BUILD_TIME"
         type  = "SECRET"
       }
