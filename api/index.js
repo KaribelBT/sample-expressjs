@@ -45,12 +45,11 @@ let db;
 (async () => {
   try {
     const client = await MongoClient.connect(url);
-    const executionId = "system";
-    logger.info({ executionId: executionId, message: "Connected to Database" });
+    logger.info({ executionId: "system", message: "Connected to Database" });
     db = client.db(dbName);
   } catch (error) {
     logger.error({
-      executionId: executionId,
+      executionId: "system",
       message: `Database connection error: ${error}`,
     });
   }

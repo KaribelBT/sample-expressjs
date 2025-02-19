@@ -12,7 +12,3 @@ spec:
         source_dir: api
       github:
         deploy_on_push: true
-      log_destinations:
-        - name: kbt-tftest-project
-          papertrail:
-            endpoint: logs.papertrailapp.com:21111
