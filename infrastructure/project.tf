@@ -9,7 +9,7 @@ resource "digitalocean_project_resources" "project_resources" {
   project = digitalocean_project.project.id
 
   resources = [
-    digitalocean_database_cluster.mongodb.id,
-    digitalocean_app.api.id
+    digitalocean_database_cluster.mongodb.urn,
+    digitalocean_app.api.urn
   ]
 }
