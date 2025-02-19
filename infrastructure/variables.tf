@@ -23,3 +23,8 @@ variable "API_REPO" {
   type        = string
   description = "github repository with API src code"
 }
+
+variable "MONGODB_COLLECTION_NAME" {
+  type        = string
+  description = "Collection name"
+}

@@ -7,13 +7,8 @@ const winston = require("winston");
 const { format } = require("logform");
 const { v4: uuidv4 } = require("uuid");
 
-const host = process.env.MONGODB_HOST;
-const username = process.env.MONGODB_USERNAME;
-const password = process.env.MONGODB_PASSWORD;
-const dbName = process.env.DB_NAME;
-const collection_name = process.env.COLLECTION_NAME;
-
-const url = `mongodb+srv://${username}:${password}@${host}`;
+const connection_string = process.env.MONGODB_COLLECTION_NAME;
+const collection_name = process.env.MONGODB_COLLECTION_NAME;
 
 // Configure winston logger
 const logger = winston.createLogger({
@@ -44,7 +39,7 @@ let db;
 
 (async () => {
   try {
-    const client = await MongoClient.connect(url);
+    const client = await MongoClient.connect(connection_string);
     logger.info({ executionId: "system", message: "Connected to Database" });
     db = client.db(dbName);
   } catch (error) {
