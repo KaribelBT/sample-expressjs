@@ -1,12 +1,18 @@
 spec:
   name: sample-expressjs
+  region: nyc
   services:
-    - environment_slug: node-js
+    - name: sample-expressjs
+      environment_slug: node-js
+      instance_count: 1
+      instance_size_slug: basic-xxs
       git:
-        branch: main
         repo_clone_url: https://github.com/KaribelBT/sample-expressjs
-      name: sample-expressjs
-    - log_destinations:
-        - name: logs
+        branch: main
+        source_dir: api
+      github:
+        deploy_on_push: true
+      log_destinations:
+        - name: sample-expressjs
           papertrail:
             endpoint: logs.papertrailapp.com:21111

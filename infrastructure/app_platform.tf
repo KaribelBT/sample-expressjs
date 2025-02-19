@@ -12,10 +12,12 @@ resource "digitalocean_app" "sample_expressjs" {
       git {
         repo_clone_url = "https://github.com/KaribelBT/sample-expressjs.git"
         branch         = "main"
-        deploy_on_push = true
-        build_command  = "cd api && npm install && npm run build"
-        run_command    = "cd api && npm start"
       }
+      github {
+        deploy_on_push = true
+      }
+
+      source_dir = "api"
 
       log_destination {
         name = "sample-expressjs"
