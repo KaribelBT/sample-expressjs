@@ -18,3 +18,8 @@ variable "PAPERTRAIL_ENDPOINT" {
   type        = string
   description = "Papertrail endpoint to send logs"
 }
+
+variable "API_REPO" {
+  type        = string
+  description = "github repository with API src code"
+}

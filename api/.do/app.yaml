@@ -1,8 +1,8 @@
 spec:
-  name: sample-expressjs
+  name: kbt-tftest-project
   region: nyc
   services:
-    - name: sample-expressjs
+    - name: kbt-tftest-project
       environment_slug: node-js
       instance_count: 1
       instance_size_slug: basic-xxs
@@ -13,6 +13,6 @@ spec:
       github:
         deploy_on_push: true
       log_destinations:
-        - name: sample-expressjs
+        - name: kbt-tftest-project
           papertrail:
             endpoint: logs.papertrailapp.com:21111
