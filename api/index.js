@@ -10,6 +10,9 @@ const { v4: uuidv4 } = require("uuid");
 const connection_string = process.env.MONGODB_COLLECTION_NAME;
 const collection_name = process.env.MONGODB_COLLECTION_NAME;
 
+console.log(connection_string);
+console.log(collection_name);
+
 // Configure winston logger
 const logger = winston.createLogger({
   level: "info",
@@ -47,11 +50,11 @@ app.post("/docs", async (req, res) => {
     let db;
     try {
       const client = await MongoClient.connect(connection_string);
-      logger.info({ executionId: "system", message: "Connected to Database" });
+      logger.info({ executionId, message: "Connected to Database" });
       db = client.db(dbName);
     } catch (error) {
       logger.error({
-        executionId: "system",
+        executionId,
         message: `Database connection error: ${error}`,
       });
     }
@@ -74,11 +77,11 @@ app.get("/docs", async (req, res) => {
     let db;
     try {
       const client = await MongoClient.connect(connection_string);
-      logger.info({ executionId: "system", message: "Connected to Database" });
+      logger.info({ executionId, message: "Connected to Database" });
       db = client.db(dbName);
     } catch (error) {
       logger.error({
-        executionId: "system",
+        executionId,
         message: `Database connection error: ${error}`,
       });
     }
@@ -118,11 +121,11 @@ app.delete("/docs/:id", async (req, res) => {
     let db;
     try {
       const client = await MongoClient.connect(connection_string);
-      logger.info({ executionId: "system", message: "Connected to Database" });
+      logger.info({ executionId, message: "Connected to Database" });
       db = client.db(dbName);
     } catch (error) {
       logger.error({
-        executionId: "system",
+        executionId,
         message: `Database connection error: ${error}`,
       });
     }
