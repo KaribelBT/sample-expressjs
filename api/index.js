@@ -7,7 +7,7 @@ const winston = require("winston");
 const { format } = require("logform");
 const { v4: uuidv4 } = require("uuid");
 
-const connection_string = process.env.MONGODB_COLLECTION_NAME;
+const connection_string = process.env.MONGODB_CONNECTION_STRING;
 const collection_name = process.env.MONGODB_COLLECTION_NAME;
 
 console.log(connection_string);
