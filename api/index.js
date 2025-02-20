@@ -7,11 +7,9 @@ const winston = require("winston");
 const { format } = require("logform");
 const { v4: uuidv4 } = require("uuid");
 
-const connection_string = process.env.MONGODB_CONNECTION_STRING;
-const collection_name = process.env.MONGODB_COLLECTION_NAME;
-
-console.log(connection_string);
-console.log(collection_name);
+const connectionString = process.env.MONGODB_connectionString;
+const dbName = process.env.MONGODB_DB_NAME;
+const collectioName = process.env.MONGODB_COLLECTION_NAME;
 
 // Configure winston logger
 const logger = winston.createLogger({
@@ -49,7 +47,7 @@ app.post("/docs", async (req, res) => {
     });
     let db;
     try {
-      const client = await MongoClient.connect(connection_string);
+      const client = await MongoClient.connect(connectionString);
       logger.info({ executionId, message: "Connected to Database" });
       db = client.db(dbName);
     } catch (error) {
@@ -58,7 +56,7 @@ app.post("/docs", async (req, res) => {
         message: `Database connection error: ${error}`,
       });
     }
-    const result = await db.collection(collection_name).insertOne(document);
+    const result = await db.collection(collectioName).insertOne(document);
     logger.info({
       executionId,
       message: `Document added: ${JSON.stringify(result)}`,
@@ -76,7 +74,7 @@ app.get("/docs", async (req, res) => {
   try {
     let db;
     try {
-      const client = await MongoClient.connect(connection_string);
+      const client = await MongoClient.connect(connectionString);
       logger.info({ executionId, message: "Connected to Database" });
       db = client.db(dbName);
     } catch (error) {
@@ -85,7 +83,7 @@ app.get("/docs", async (req, res) => {
         message: `Database connection error: ${error}`,
       });
     }
-    const results = await db.collection(collection_name).find().toArray();
+    const results = await db.collection(collectioName).find().toArray();
     logger.info({
       executionId,
       message: `Documents retrieved: ${JSON.stringify(results)}`,
@@ -120,7 +118,7 @@ app.delete("/docs/:id", async (req, res) => {
 
     let db;
     try {
-      const client = await MongoClient.connect(connection_string);
+      const client = await MongoClient.connect(connectionString);
       logger.info({ executionId, message: "Connected to Database" });
       db = client.db(dbName);
     } catch (error) {
@@ -131,7 +129,7 @@ app.delete("/docs/:id", async (req, res) => {
     }
 
     const document = await db
-      .collection(collection_name)
+      .collection(collectioName)
       .findOne({ _id: objectId });
     if (!document) {
       logger.warn({ executionId, message: "Document not found" });
@@ -139,7 +137,7 @@ app.delete("/docs/:id", async (req, res) => {
     }
 
     const result = await db
-      .collection(collection_name)
+      .collection(collectioName)
       .deleteOne({ _id: objectId });
     logger.info({
       executionId,

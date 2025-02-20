@@ -26,6 +26,12 @@ resource "digitalocean_app" "api" {
         type  = "SECRET"
       }
       env {
+        key   = "MONGODB_DB_NAME"
+        value = digitalocean_database_cluster.mongodb.name
+        scope = "RUN_AND_BUILD_TIME"
+        type  = "GENERAL"
+      }
+      env {
         key   = "MONGODB_COLLECTION_NAME"
         value = var.MONGODB_COLLECTION_NAME
         scope = "RUN_AND_BUILD_TIME"
