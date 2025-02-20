@@ -1,0 +1,6 @@
+project_name="kbt-do-dev"
+project_purpose="Web Application"
+space_name="kbtdotfstatedev"
+region="nyc"
+container_name="tfstate"
+key="kbt-do-key-dev"
