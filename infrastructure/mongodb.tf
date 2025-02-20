@@ -4,7 +4,7 @@ resource "digitalocean_database_cluster" "mongodb" {
   engine     = "mongodb"
   version    = "7"
   size       = "db-s-1vcpu-1gb"
-  region     = "nyc3"
+  region     = var.REGION
   node_count = 1
 }
 

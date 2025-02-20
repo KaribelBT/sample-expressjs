@@ -14,6 +14,12 @@ variable "ENV" {
   }
 }
 
+variable "REGION" {
+  type        = string
+  description = "Region"
+  default     = "nyc"
+}
+
 variable "PAPERTRAIL_ENDPOINT" {
   type        = string
   description = "Papertrail endpoint to send logs"

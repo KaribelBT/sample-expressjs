@@ -2,7 +2,7 @@
 resource "digitalocean_app" "api" {
   spec {
     name   = "kbt-tftest-api"
-    region = "nyc"
+    region = var.REGION
 
     service {
       name               = "kbt-tftest-api"
