@@ -11,6 +11,8 @@ const connectionString = process.env.MONGODB_connectionString;
 const dbName = process.env.MONGODB_DB_NAME;
 const collectioName = process.env.MONGODB_COLLECTION_NAME;
 
+console.log(dbName);
+console.log(collectioName);
 // Configure winston logger
 const logger = winston.createLogger({
   level: "info",
