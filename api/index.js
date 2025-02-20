@@ -11,9 +11,6 @@ const connectionString = process.env.MONGODB_CONNECTION_STRING;
 const dbName = process.env.MONGODB_DB_NAME;
 const collectioName = process.env.MONGODB_COLLECTION_NAME;
 
-console.log(connectionString);
-console.log(dbName);
-console.log(collectioName);
 // Configure winston logger
 const logger = winston.createLogger({
   level: "info",
@@ -28,6 +25,9 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: "combined.log" }),
   ],
 });
+
+// Middleware to parse JSON request body
+app.use(express.json());
 
 // Middleware to generate and attach execution ID to each request
 app.use((req, res, next) => {
