@@ -7,10 +7,11 @@ const winston = require("winston");
 const { format } = require("logform");
 const { v4: uuidv4 } = require("uuid");
 
-const connectionString = process.env.MONGODB_connectionString;
+const connectionString = process.env.MONGODB_CONNECTION_STRING;
 const dbName = process.env.MONGODB_DB_NAME;
 const collectioName = process.env.MONGODB_COLLECTION_NAME;
 
+console.log(connectionString);
 console.log(dbName);
 console.log(collectioName);
 // Configure winston logger
