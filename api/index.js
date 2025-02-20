@@ -35,21 +35,6 @@ app.use((req, res, next) => {
   next();
 });
 
-let db;
-
-(async () => {
-  try {
-    const client = await MongoClient.connect(connection_string);
-    logger.info({ executionId: "system", message: "Connected to Database" });
-    db = client.db(dbName);
-  } catch (error) {
-    logger.error({
-      executionId: "system",
-      message: `Database connection error: ${error}`,
-    });
-  }
-})();
-
 app.post("/docs", async (req, res) => {
   const executionId = req.executionId;
   logger.info({ executionId, message: "POST /docs - Add a document" });
@@ -59,6 +44,17 @@ app.post("/docs", async (req, res) => {
       executionId,
       message: `Document to add: ${JSON.stringify(document)}`,
     });
+    let db;
+    try {
+      const client = await MongoClient.connect(connection_string);
+      logger.info({ executionId: "system", message: "Connected to Database" });
+      db = client.db(dbName);
+    } catch (error) {
+      logger.error({
+        executionId: "system",
+        message: `Database connection error: ${error}`,
+      });
+    }
     const result = await db.collection(collection_name).insertOne(document);
     logger.info({
       executionId,
@@ -75,6 +71,17 @@ app.get("/docs", async (req, res) => {
   const executionId = req.executionId;
   logger.info({ executionId, message: "GET /docs - Get all documents" });
   try {
+    let db;
+    try {
+      const client = await MongoClient.connect(connection_string);
+      logger.info({ executionId: "system", message: "Connected to Database" });
+      db = client.db(dbName);
+    } catch (error) {
+      logger.error({
+        executionId: "system",
+        message: `Database connection error: ${error}`,
+      });
+    }
     const results = await db.collection(collection_name).find().toArray();
     logger.info({
       executionId,
@@ -107,6 +114,18 @@ app.delete("/docs/:id", async (req, res) => {
 
     const objectId = new ObjectId(id);
     logger.info({ executionId, message: `Converted ObjectId: ${objectId}` });
+
+    let db;
+    try {
+      const client = await MongoClient.connect(connection_string);
+      logger.info({ executionId: "system", message: "Connected to Database" });
+      db = client.db(dbName);
+    } catch (error) {
+      logger.error({
+        executionId: "system",
+        message: `Database connection error: ${error}`,
+      });
+    }
 
     const document = await db
       .collection(collection_name)
