@@ -1,3 +1,4 @@
+# Documentation: https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/app
 resource "digitalocean_app" "api" {
   spec {
     name   = "kbt-tftest-api"
@@ -19,6 +20,7 @@ resource "digitalocean_app" "api" {
 
       }
       source_dir = "api"
+      # DigitalOcean does not have a direct equivalent to Key Vault for secrets management. HashiCorp Vault can be a paid alternative
       env {
         key   = "MONGODB_CONNECTION_STRING"
         value = "mongodb+srv://${digitalocean_database_cluster.mongodb.user}:${digitalocean_database_cluster.mongodb.password}@${digitalocean_database_cluster.mongodb.host}/admin"
@@ -37,6 +39,8 @@ resource "digitalocean_app" "api" {
         scope = "RUN_AND_BUILD_TIME"
         type  = "GENERAL"
       }
+      # Documentation: https://docs.digitalocean.com/products/app-platform/how-to/forward-logs/
+      # Only basic logs are available in App Platform, alternative is to forward application runtime logs to external log management providers.
       log_destination {
         name = "kbt-tftest-api"
         papertrail {

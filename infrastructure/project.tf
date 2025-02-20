@@ -1,3 +1,4 @@
+# Documentation: https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/project
 resource "digitalocean_project" "project" {
   name        = "kbt-tftest-project"
   description = "A project to test terraform deploys for KBT."
@@ -5,6 +6,8 @@ resource "digitalocean_project" "project" {
   environment = var.ENV
 }
 
+# Documentation: https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/project_resources
+# Resources must be created and then related to the project
 resource "digitalocean_project_resources" "project_resources" {
   project = digitalocean_project.project.id
 
