@@ -7,7 +7,6 @@ variable "DO_TOKEN" {
 variable "ENV" {
   type        = string
   description = "Environment"
-  default     = "development"
   validation {
     condition     = contains(["development", "staging", "production"], var.ENV)
     error_message = "Allowed values for ENV are \"development\", \"staging\", \"production\"."
@@ -17,7 +16,11 @@ variable "ENV" {
 variable "REGION" {
   type        = string
   description = "Region"
-  default     = "nyc"
+}
+
+variable "PROJECT_NAME" {
+  type        = string
+  description = "Project name"
 }
 
 variable "PAPERTRAIL_ENDPOINT" {

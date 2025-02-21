@@ -4,7 +4,7 @@ set -eux -o pipefail
 
 if [ "$#" -eq  "0" ]
 then
-    echo "No arguments supplied. Usage: ./scripts/backend-setup.sh BACKENDFILE. Example: ./scripts/backend-setup.sh dev.tfbackend"
+    echo "No arguments supplied. Usage: ./scripts/backend-setup.sh BACKENDFILE. Example: ./scripts/backend-setup.sh env/dev.tfbackend"
     exit 1
 fi
 
@@ -14,23 +14,10 @@ source $1
 doctl auth init
 
 # Create a project
-# doctl projects create --name "$project_name" --purpose "$project_purpose"
+doctl projects create --name "$project_name" --purpose "$project_purpose"
 
 # Get the project ID
 project_id=$(doctl projects list --format ID,Name | grep "$project_name" | awk '{print $1}')
 
-
-# Configure s3cmd with DigitalOcean Spaces credentials
-s3cmd --configure
-
-# Create a container (bucket) inside the Space
-output=$(s3cmd mb s3://"$container_name" --host="$space_name.$region.digitaloceanspaces.com" --host-bucket="$space_name.$region.digitaloceanspaces.com")
-echo "$output"
-
-# Create a key (object) inside the container
-# echo "This is a test object" > test-object.txt
-# s3cmd put test-object.txt s3://"$container_name"/"$key" --host="$space_name.$region.digitaloceanspaces.com" --host-bucket="$space_name.$region.digitaloceanspaces.com"
-# rm test-object.txt
-
 # Assign the Space to the project
-doctl projects resources assign "$project_id" --resource do:space:"$space_name"
+doctl projects resources assign "$project_id" --resource do:space:"$bucket"
